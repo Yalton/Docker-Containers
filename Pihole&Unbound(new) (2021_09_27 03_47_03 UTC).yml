@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+        
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    dns: 127.0.0.1
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    links:
+      - unbound
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "8080:80/tcp"
+    environment:
+      DNS1: 10.0.0.2#5053
+      DNS2: 1.1.1.1
+      IPv6: "no"
+      TZ: 'America/Los_Angeles'
+      WEBPASSWORD: Passw0rd
+    volumes:
+      - '/media/NAS/dnserver/pihole/:/etc/pihole/'
+      - '/media/NAS/dnserver/dnsmasq.d/:/etc/dnsmasq.d/'
+    networks:
+     pihole_net:
+       ipv4_address: 10.0.0.3
+    
+  unbound:
+    container_name: unbound
+    image: klutchell/unbound:latest
+    restart: unless-stopped
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      pihole_net:
+        ipv4_address: 10.0.0.2
+
+networks:
+  pihole_net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.0.0.0/29

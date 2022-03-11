@@ -1,0 +1,39 @@
+version: '2.1'
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/LosAngeles
+    volumes:
+      - /mnt/nas/shared/Network/NUC/transmission/wireguard/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+      - 9091:9091
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+    restart: unless-stopped
+ 
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/LosAngeles
+      - TRANSMISSION_WEB_HOME=/combustion-release/
+      - USER=yalt
+      - PASS=Passw0rd
+    volumes:
+      - /mnt/nas/shared/Network/NUC/transmission/config:/config
+      - /mnt/nas/shared/Network/NUC/transmission/downloads:/downloads
+    depends_on:
+      - wireguard
+    network_mode: service:wireguard

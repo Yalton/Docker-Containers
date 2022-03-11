@@ -1,0 +1,8 @@
+ promtail:
+    container_name: promtail
+    image: grafana/promtail:latest
+    volumes:
+      - /var/log:/var/log
+      - /media/NAS/promtail:/etc/promtail
+    command: -config.file=/etc/promtail/promtail-config.yml
+    restart: unless-stopped

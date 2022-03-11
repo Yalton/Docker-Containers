@@ -1,0 +1,15 @@
+version: "2.1"
+services:
+  dokuwiki:
+    image: lscr.io/linuxserver/dokuwiki
+    container_name: wiki
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /media/NAS/Mainframe/wiki/config:/config
+    ports:
+      - 8000:80
+      - 443:443 #optional
+    restart: unless-stopped

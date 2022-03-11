@@ -1,0 +1,4 @@
+DEBUG 2022-01-13 23:07:24,800 - Starting new HTTPS connection (1): paper-api.alpaca.markets:443
+DEBUG 2022-01-13 23:07:25,158 - https://paper-api.alpaca.markets:443 "GET /v2/account HTTP/1.1" 200 759
+DEBUG 2022-01-13 23:07:25,247 - https://paper-api.alpaca.markets:443 "GET /v2/positions HTTP/1.1" 200 2
+DEBUG 2022-01-13 23:07:25,338 - https://paper-api.alpaca.markets:443 "GET /v2/positions HTTP/1.1" 200 2

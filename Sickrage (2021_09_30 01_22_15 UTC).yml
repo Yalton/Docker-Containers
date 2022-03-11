@@ -1,0 +1,16 @@
+version: "2"
+services:
+  sickrage:
+    image: linuxserver/sickrage
+    container_name: sickrage
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/nas/shared/Network/NUC/sickrage/config:/config
+      - /mnt/nas/shared/Network/NUC/sickrage/downloads:/downloads
+      - /mnt/nas/shared/Network/NUC/sickrage/shows:/tv
+    ports:
+      - 6060:8081
+    restart: unless-stopped

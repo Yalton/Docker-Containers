@@ -1,0 +1,13 @@
+version: '2.1'
+services:
+  flame:
+    image: pawelmalak/flame:latest
+    container_name: flame
+    volumes:
+      - opt/flame:/app/data
+      #- /var/run/docker.sock:/var/run/docker.sock # optional but required for Docker integration feature
+    ports:
+      - 5005:5005
+    environment:
+      - PASSWORD=Us5C33vbLudRVfz4JU5Fne5rTQMxNaEnUJf
+    restart: unless-stopped

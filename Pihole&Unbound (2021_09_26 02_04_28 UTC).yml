@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  unbound:
+    container_name: unbound
+    image: mvance/unbound:latest
+    ports:
+      - "5335:5053/tcp"
+      - "5335:5053/udp"
+    volumes:
+      - '/media/NAS/dnserver/unbound/:/opt/unbound/etc/unbound'
+    restart: unless-stopped
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "8080:80/tcp"
+    environment:
+      TZ: 'America/Los_Angeles'
+      PIHOLE_DNS_: 127.0.0.1#5335
+      WEBPASSWORD: Passw0rd
+    volumes:
+      - '/media/NAS/dnserver/pihole/:/etc/pihole/'
+      - '/media/NAS/dnserver/dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped

@@ -1,0 +1,8 @@
+FROM scottyhardy/docker-remote-desktop
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get install -y software-properties-common
+RUN apt-add-repository ppa:i2p-maintainers/i2p
+RUN add-apt-repository ppa:micahflee/ppa
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get install -y i2p
+RUN apt install torbrowser-launcher

@@ -1,0 +1,33 @@
+version: '2.1'
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/LosAngeles
+    volumes:
+      - /media/NAS/Mainframe/deepwebdiver/wireguard/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+      - 3389:3389
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+    restart: unless-stopped
+ 
+  deepwebdiver:
+    image: webdiver
+    container_name: deepwebdiver
+      - TZ=America/LosAngeles
+    volumes:
+      - /media/NAS/Mainframe/deepwebdiver/mnt:/mnt
+    depends_on:
+      - wireguard
+    restart: unless-stopped
+    network_mode: service:wireguard

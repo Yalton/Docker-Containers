@@ -1,0 +1,7 @@
+FROM python:3
+
+WORKDIR /media/NAS/Mainframe/botland/billbot:/usr/src/app
+
+RUN pip install -U discord.py
+
+CMD [ "python", "./bot.py" ]
